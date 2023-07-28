@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { VideosModule } from './videos/videos.module';
 import { AwardsModule } from './awards/awards.module';
 
+
 @Module({
   imports: [CoursesModule, AuthModule, VideosModule, AwardsModule],
   controllers: [AppController],
