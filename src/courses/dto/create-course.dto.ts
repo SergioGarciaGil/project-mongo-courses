@@ -16,7 +16,7 @@ export class CreateCourseDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsUrl()
+    // @IsUrl()
     cover: string
 
 }

@@ -18,10 +18,7 @@ async function bootstrap() {
     .setTitle('Documentacion Api')
     .setDescription('Api de cursos')
     .setVersion('1.0')
-    .addTag('courses')
-    .addTag('videos')
-    .addTag('awards ')
-    .addTag('auth')
+
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('documentation', app, document);

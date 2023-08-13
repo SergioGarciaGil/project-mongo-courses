@@ -1,10 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoggerInterceptor } from 'src/utils/logger/logger.interceptor';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storage } from 'src/utils/media.handle';
 
 @ApiTags('videos')
+@UseInterceptors(LoggerInterceptor)
 @Controller('videos')
 
 export class VideosController {
@@ -14,6 +18,17 @@ export class VideosController {
   create(@Body() createVideoDto: CreateVideoDto) {
     return this.videosService.create(createVideoDto);
   }
+
+  @Post('upload')
+  @ApiOperation({ summary: 'Subir imagen' })
+  @ApiConsumes('multipart/form-data')
+
+  @UseInterceptors(FileInterceptor('avatar', { storage })) // 'avatar' debe coincidir con el nombre del campo en la solicitud
+  async handleUpload(@UploadedFile() file: Express.Multer.File) {
+    console.log(file); // Esto mostrará la información del archivo en la consola
+
+  }
+
 
   @Get()
   findAll() {
