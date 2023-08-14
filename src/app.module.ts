@@ -8,6 +8,8 @@ import { AwardsModule } from './awards/awards.module';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { UserModule } from './user/user.module';
+
 
 
 @Module({
@@ -20,7 +22,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', 'public'),
     }),
 
-    CoursesModule, AuthModule, VideosModule, AwardsModule],
+    CoursesModule, AuthModule, VideosModule, AwardsModule, UserModule],
 
   controllers: [AppController],
   providers: [AppService],
