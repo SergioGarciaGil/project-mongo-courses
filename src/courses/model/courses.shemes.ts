@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import mongoose from 'mongoose';
 
-export type CurseDocument = Course & Document;
+export type CourseDocument = Course & Document;
 
 @Schema()
 export class Course {
@@ -13,8 +13,8 @@ export class Course {
     @Prop()
     price: number;
 
-    @Prop()
-    IdAuthor: mongoose.Types.ObjectId
+    // @Prop()
+    // IdAuthor: mongoose.Types.ObjectId
 
     @Prop()
     description: string;
