@@ -37,8 +37,5 @@ export class CoursesController {
     return this.coursesService.update(+id, updateCourseDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.coursesService.remove(+id);
-  }
+
 }
