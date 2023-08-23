@@ -7,11 +7,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { encrypt } from './utils/handleBcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto.';
 import { compare } from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
 
   constructor(
+    private readonly jwtService: JwtService,
+
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>
   ) { }
 
@@ -24,7 +27,21 @@ export class AuthService {
     const isCheck = await compare(password, userExist.password);
     if (!isCheck) throw new HttpException('PASSWORD_INVALID', HttpStatus.CONFLICT)
 
-    return userExist
+    // Ocultar el campo de contraseña en el objeto userExist
+    userExist.password = undefined;
+
+    const payload = {
+      id: userExist.id,
+    }
+
+    const token = this.jwtService.sign(payload)
+
+    const data = {
+      acces_token: token,
+      userExist
+    }
+
+    return data
   }
 
   public async register(userBody: RegisterAuthDto) {
