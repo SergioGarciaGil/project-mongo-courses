@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { SlugPipe } from './pipes/slug/slug.pipe';
-import { title } from 'process';
+import { JwtGuardGuard } from 'src/guards/brouser-agent/brouser-agent.guard';
+
 
 @ApiTags('courses')
 @Controller('courses')
+@UseGuards(JwtGuardGuard)
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) { }
 
@@ -19,6 +21,7 @@ export class CoursesController {
     } catch (error) {
       throw new HttpException('Forbidden,', HttpStatus.FORBIDDEN)
     }
+
   }
 
   @Get()

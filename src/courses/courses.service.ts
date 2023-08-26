@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,9 +16,14 @@ export class CoursesService {
 
   }
 
-  create(createCourseDto: CreateCourseDto) {
+  async create(createCourseDto: CreateCourseDto) {
 
-    return this.courseModel.create(createCourseDto)
+    try {
+      await this.courseModel.create(createCourseDto)
+    } catch (error) {
+      throw new BadRequestException('error')
+    }
+    return { message: "successful creation" }
   }
 
   findAll() {
